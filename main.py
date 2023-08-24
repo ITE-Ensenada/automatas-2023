@@ -1,6 +1,10 @@
-print
+print "hola mundo"
 variable - 2;
 for i = 0
-  echo
+  print
+  i++;
 else
-  return 0
+  return FALSE
+
+
+void main()
