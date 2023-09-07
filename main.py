@@ -1,10 +1,2 @@
-print "hola mundo"
-variable - 2;
-for i = 0
-  print
-  i++;
-else
-  return FALSE
+"Hola Mundo";
 
-aki hago un cambio
-void main()
