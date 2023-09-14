@@ -1,11 +1,11 @@
 # YOUR DOC TITLE
 Link: [Link to this doc](#)
 
-Author(s): Charlie L
+Author(s): Jorge Rodriguez Flores
 
 Status: [Draft]
 
-Last Updated: 2022-12-31
+Last Updated: 2023-09-13
 
 ## Contents
 - Goals
@@ -27,34 +27,20 @@ Last Updated: 2022-12-31
 - [A link](#)
 - [Another link](#)
 
-## Objective
-_What and why are we doing this?_
-
-_Include context for people that are unfamiliar with the project._
-
-_Keep it short, elaborate below in **Background, Overview and Detailed Design**_
-
-_Add screenshots / mocks where necessary_
-
+## Objective_What and why are we doing this?_
+We're making this bot in order to deeply understands how telegram bots work, what options they provide
+and how to interact with APIs in general.
 ## Goals
-- Goals
+- Create a telegram bot
 ## Non-Goals
 - Non-Goals
 
 ## Background
-_What is the context of the project?_
-
-_Include resources like other design docs if needed._
-
-_Don’t write about your design or requirements here._
-
+Telegram bots are having a boom right now. We choose to create one in order to 
+keep up with the current state of the tech industry.
 ## Overview
-_High-level overview of your proposal._
-
-_This section should be understandable by new employees on your team that is not related to the project._
-
-_Put details in the next section._
-
+This bot will process a given image. We'll have some buttons to choose between processing filters.
+It'll also try to identify the object of the given image.
 ## Detailed Design
 _Use diagrams where necessary._
 
@@ -72,15 +58,15 @@ _Don’t elaborate deeply on the implementation details._
 
 ## Solution 1
 ### Frontend
-_Frontend…_
+Telegram
 ### Backend
-_Backend…_
+Python
 
 ## Solution 2
 ### Frontend
-_Frontend…_
+WeChat
 ### Backend
-_Backend…_
+Javascript
 
 ## Considerations
 _Concerns / trade-offs / tech debt_
