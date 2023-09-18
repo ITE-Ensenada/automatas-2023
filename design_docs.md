@@ -10,21 +10,37 @@ Ultima actualización: 2023-09-17
 
 Contenido
 Goals
+
 Non-Goals
+
 Background
+
 Overview
+
 Detailed Design
+
 Solucion 1
+
 Frontend
+
 Backend
+
 Solucion 2
+
 Frontend
+
 Backend
+
 Consideraciones
+
 Métricas
+
 Links
+
 Un link
+
 Otro link
+
 Objetivo
 Que y porque estamos haciendo esto?
 
