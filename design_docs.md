@@ -32,12 +32,19 @@ El objetivo de este documento es proporcionar una descripción detallada del dis
 Goals
 
 - Desarrollar un bot educativo que brinde conocimientos y recursos educativos a los usuarios.
+
   Goals
+
 - Facilitar la interacción con el contenido educativo de manera intuitiva y atractiva.
+
   Non-Goals
+
 - No se busca proporcionar evaluaciones o exámenes.
+
   Non-Goals
+
 - No se incluirán características de entretenimiento no relacionadas con la educación.
+
   Background
   Cuál es el contexto de este proyecto?
 
