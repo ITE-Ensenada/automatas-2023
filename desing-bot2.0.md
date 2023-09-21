@@ -35,14 +35,14 @@ El objetivo de este proyecto es crear un Bot Educativo de Matemáticas diseñado
 
 ## Goals
 
-Desarrollar un Bot Educativo interactivo y amigable que enseñe conceptos de matemáticas básicas de manera efectiva para niños.
-Proporcionar una experiencia de usuario atractiva y educativa que mantenga la atención de los niños.
-Integrar elementos de juego y recompensas para motivar el aprendizaje.
+-Desarrollar un Bot Educativo interactivo y amigable que enseñe conceptos de matemáticas básicas de manera efectiva para niños.
+-Proporcionar una experiencia de usuario atractiva y educativa que mantenga la atención de los niños.
+-Integrar elementos de juego y recompensas para motivar el aprendizaje.
 
 ## Non-Goals
 
-Enseñar matemáticas de nivel avanzado.
-Recopilar datos personales de los usuarios menores de edad sin consentimiento explícito.
+-Enseñar matemáticas de nivel avanzado.
+-Recopilar datos personales de los usuarios menores de edad sin consentimiento explícito.
 
 ## Background
 
@@ -70,32 +70,32 @@ _No elabores minuciosamente la implementación._
 
 ### Frontend
 
-Diseñaremos una interfaz de usuario colorida y atractiva que atraiga a los niños.
-Implementaremos una navegación intuitiva para que los niños puedan acceder a las lecciones y actividades fácilmente.
+-Diseñaremos una interfaz de usuario colorida y atractiva que atraiga a los niños.
+-Implementaremos una navegación intuitiva para que los niños puedan acceder a las lecciones y actividades fácilmente.
 
 ### Backend
 
-Desarrollaremos un sistema de gestión de contenidos que permita agregar y actualizar lecciones y actividades de manera sencilla.
-Integraremos un sistema de seguimiento del progreso de los niños para que los padres y tutores puedan supervisar su aprendizaje.
+-Desarrollaremos un sistema de gestión de contenidos que permita agregar y actualizar lecciones y actividades de manera sencilla.
+-Integraremos un sistema de seguimiento del progreso de los niños para que los padres y tutores puedan supervisar su aprendizaje.
 
 ## Solution 2
 
 ### Frontend
 
-Exploraremos la posibilidad de agregar elementos de gamificación, como recompensas y logros, para aumentar la motivación de los niños.
-Consideraremos la inclusión de animaciones y efectos visuales para hacer que la experiencia sea aún más atractiva.
+-Exploraremos la posibilidad de agregar elementos de gamificación, como recompensas y logros, para aumentar la motivación de los niños.
+-Consideraremos la inclusión de animaciones y efectos visuales para hacer que la experiencia sea aún más atractiva.
 
 ### Backend
 
-Investigaremos la posibilidad de utilizar servicios en la nube para garantizar la escalabilidad de la aplicación.
-Evaluaremos soluciones de inteligencia artificial para adaptar el contenido a las necesidades individuales de los niños.
+-Investigaremos la posibilidad de utilizar servicios en la nube para garantizar la escalabilidad de la aplicación.
+-Evaluaremos soluciones de inteligencia artificial para adaptar el contenido a las necesidades individuales de los niños.
 
 ## Consideraciones
 
-La seguridad y privacidad de los datos de los niños deben ser una preocupación principal. Cumpliremos con todas las regulaciones de protección infantil.
-La accesibilidad será fundamental, asegurándonos de que la aplicación sea utilizable por niños con discapacidades.
+-La seguridad y privacidad de los datos de los niños deben ser una preocupación principal. Cumpliremos con todas las regulaciones de protección infantil.
+-La accesibilidad será fundamental, asegurándonos de que la aplicación sea utilizable por niños con discapacidades.
 
 ## Métricas
 
-La seguridad y privacidad de los datos de los niños deben ser una preocupación principal. Cumpliremos con todas las regulaciones de protección infantil.
-La accesibilidad será fundamental, asegurándonos de que la aplicación sea utilizable por niños con discapacidades.
+-La seguridad y privacidad de los datos de los niños deben ser una preocupación principal. -Cumpliremos con todas las regulaciones de protección infantil.
+-La accesibilidad será fundamental, asegurándonos de que la aplicación sea utilizable por niños con discapacidades.
