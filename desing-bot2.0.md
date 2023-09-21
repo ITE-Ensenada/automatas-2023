@@ -1,101 +1,97 @@
-# Bot Educativo de Matemáticas para Niños
+**TITULO DEL DESIGN DOC**
+Bot Educativo de Matemáticas para Niños
 
-Link: [Link a este design doc](#)
+**Link:** [Inserta el enlace a este documento]
 
-Author(s): Osorio, Jesus Elian
+**Author(s):** Osorio, Jesus Elian
 
-Status: [Ready for review]
+**Status:** [ Listo para revisión]
 
-Ultima actualización: 2023-09-20
+**Última actualización:** 2023-09-20
 
-## Contenido
+**Contenido**
 
-- Goals
-- Non-Goals
-- Background
-- Overview
-- Detailed Design
-  - Solucion 1
-    - Frontend
-    - Backend
-  - Solucion 2
-    - Frontend
-    - Backend
-- Consideraciones
-- Métricas
+**Objetivo**
+¿Qué y por qué estamos haciendo esto?
 
-## Links
+El objetivo principal de este proyecto es desarrollar un bot educativo de matemáticas para niños que sea accesible y efectivo en la enseñanza de conceptos matemáticos básicos. Queremos proporcionar una herramienta interactiva y amigable que ayude a los niños a mejorar sus habilidades matemáticas de una manera divertida y atractiva. Este bot se enfocará en conceptos adecuados para niños de diferentes edades y niveles de habilidad.
 
-- [Un link](#)
-- [Otro link](#)
+**Goals**
+Metas
 
-## Objetivo
+1. **Desarrollar una interfaz amigable:** El bot debe tener una interfaz de usuario que sea intuitiva y atractiva para los niños, utilizando elementos visuales y de diseño que los atraigan.
 
-El objetivo de este proyecto es crear un Bot Educativo de Matemáticas diseñado específicamente para niños. Nuestra meta es hacer que el aprendizaje de las matemáticas sea divertido y accesible para los más jóvenes, fomentando un amor por las matemáticas desde una edad temprana.
+2. **Enseñanza efectiva:** El bot debe ser capaz de explicar y ejemplificar conceptos matemáticos de manera clara y comprensible para los niños, utilizando ejemplos prácticos y ejercicios interactivos.
 
-## Goals
+3. **Personalización:** El bot debe ser capaz de adaptarse a las necesidades individuales de los niños, proporcionando contenido y ejercicios que se ajusten a su nivel de habilidad y ritmo de aprendizaje.
 
--Desarrollar un Bot Educativo interactivo y amigable que enseñe conceptos de matemáticas básicas de manera efectiva para niños.
--Proporcionar una experiencia de usuario atractiva y educativa que mantenga la atención de los niños.
--Integrar elementos de juego y recompensas para motivar el aprendizaje.
+4. **Seguimiento del progreso:** El bot debe ofrecer una función de seguimiento del progreso para que los padres y los maestros puedan monitorear el rendimiento de los niños y identificar áreas en las que puedan necesitar ayuda adicional.
 
-## Non-Goals
+**Non-Goals**
+No Metas
 
--Enseñar matemáticas de nivel avanzado.
--Recopilar datos personales de los usuarios menores de edad sin consentimiento explícito.
+1. Este bot no tiene como objetivo reemplazar la enseñanza tradicional, sino complementarla.
 
-## Background
+2. No se espera que el bot enseñe conceptos matemáticos avanzados, se centrará en conceptos básicos adecuados para niños.
 
-Este proyecto se basa en la creciente importancia de desarrollar habilidades matemáticas desde una edad temprana. Las matemáticas son esenciales en la vida cotidiana y en el desarrollo académico y profesional futuro de los niños.
+**Background**
+¿Cuál es el contexto de este proyecto?
 
-## Overview
+Este proyecto surge de la creciente necesidad de herramientas educativas interactivas que ayuden a los niños a aprender matemáticas de manera efectiva y atractiva. Con la creciente disponibilidad de tecnología y la educación a distancia, un bot educativo de matemáticas puede ser una solución valiosa para niños de diversas edades y entornos educativos.
 
-Nuestro Bot Educativo de Matemáticas para Niños será una aplicación interactiva en línea diseñada específicamente para niños en edad escolar. Ofrecerá una variedad de lecciones y actividades matemáticas en un entorno amigable y motivador.
+**Overview**
+Resumen
 
-## Detailed Design
+En resumen, estamos desarrollando un bot educativo de matemáticas para niños que se centrará en conceptos matemáticos básicos. El bot tendrá una interfaz amigable y ofrecerá enseñanza efectiva a través de explicaciones claras y ejercicios interactivos. También permitirá la personalización y el seguimiento del progreso de los niños.
 
-_Usa diagramas donde veas necesario_
+**Detailed Design**
+Diseño Detallado
 
-_Herramientas como [Excalidraw](https://excalidraw.com) son buenos recursos para esto_
+Usaremos diagramas y herramientas como Excalidraw según sea necesario para describir el diseño en detalle.
 
-_Cubre los cambios principales:_
+**Solución 1**
 
-_- Cuales son las nuevas funciones que vas a escribir?_
-_- Porque necesitas nuevos componentes?_
-_- Hay código que puede ser reusable?_
+_Frontend_
 
-_No elabores minuciosamente la implementación._
+- El frontend del bot consistirá en una interfaz de usuario atractiva y fácil de usar, diseñada específicamente para niños.
 
-## Solution 1
+_Backend_
 
-### Frontend
+- El backend manejará la lógica de enseñanza, la adaptación de contenido y el seguimiento del progreso del usuario.
 
--Diseñaremos una interfaz de usuario colorida y atractiva que atraiga a los niños.
--Implementaremos una navegación intuitiva para que los niños puedan acceder a las lecciones y actividades fácilmente.
+**Solución 2**
 
-### Backend
+_Frontend_
 
--Desarrollaremos un sistema de gestión de contenidos que permita agregar y actualizar lecciones y actividades de manera sencilla.
--Integraremos un sistema de seguimiento del progreso de los niños para que los padres y tutores puedan supervisar su aprendizaje.
+- En el frontend, se implementarán elementos visuales y de diseño que atraigan a los niños y faciliten su interacción con el bot.
 
-## Solution 2
+_Backend_
 
-### Frontend
+- El backend se encargará de la gestión de contenidos, adaptándose a diferentes niveles de habilidad y proporcionando ejercicios adecuados para cada niño.
 
--Exploraremos la posibilidad de agregar elementos de gamificación, como recompensas y logros, para aumentar la motivación de los niños.
--Consideraremos la inclusión de animaciones y efectos visuales para hacer que la experiencia sea aún más atractiva.
+**Consideraciones**
+Consideraciones
 
-### Backend
+- Es importante considerar la privacidad y la seguridad de los datos de los usuarios, especialmente cuando se trata de niños.
 
--Investigaremos la posibilidad de utilizar servicios en la nube para garantizar la escalabilidad de la aplicación.
--Evaluaremos soluciones de inteligencia artificial para adaptar el contenido a las necesidades individuales de los niños.
+- Debemos tener en cuenta la retroalimentación de los usuarios y estar dispuestos a realizar mejoras basadas en sus comentarios.
 
-## Consideraciones
+**Métricas**
+Métricas
 
--La seguridad y privacidad de los datos de los niños deben ser una preocupación principal. Cumpliremos con todas las regulaciones de protección infantil.
--La accesibilidad será fundamental, asegurándonos de que la aplicación sea utilizable por niños con discapacidades.
+Para validar antes del lanzamiento de este bot educativo, necesitamos recopilar las siguientes métricas:
 
-## Métricas
+1. **Nivel de compromiso de los usuarios:** Cuánto tiempo pasan los niños interactuando con el bot y cuántos ejercicios completan.
 
--La seguridad y privacidad de los datos de los niños deben ser una preocupación principal. -Cumpliremos con todas las regulaciones de protección infantil.
--La accesibilidad será fundamental, asegurándonos de que la aplicación sea utilizable por niños con discapacidades.
+2. **Rendimiento en ejercicios:** El porcentaje de respuestas correctas que dan los niños en los ejercicios proporcionados por el bot.
+
+3. **Nivel de personalización:** Cuántos usuarios utilizan la función de personalización para adaptar el contenido a sus necesidades.
+
+4. **Feedback de los usuarios:** Recopilación de comentarios y opiniones de padres, maestros y niños sobre la eficacia y la experiencia de uso del bot.
+
+**Links**
+Enlaces
+
+- [Inserta un enlace relevante aquí]
+
+- [Inserta otro enlace relevante aquí]
