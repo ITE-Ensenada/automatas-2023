@@ -31,7 +31,7 @@ El objetivo general del bot es responder a los usuarios los lugares de comida, t
 
 
 ## Descripción general
-Este bot le permitira a los usuarios a buscar de acuerdo a sus necesidades y curiosidades encontrar lugares para visitar en ensenada
+Este bot le permitira a los usuarios recibir recomendaciones de lugares para visitar en ensenada.
 
 ## Diseño detallado
 _Herramientas [Excalidraw](https://excalidraw.com) para estructurar._
@@ -41,4 +41,4 @@ _Herramientas [Excalidraw](https://excalidraw.com) para estructurar._
 ### Interfaz
 Telegrama
 ### backend
-Pyton
+Python
