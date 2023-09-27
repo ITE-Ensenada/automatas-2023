@@ -47,6 +47,7 @@ Comando "/start" para iniciar el juego.
 Comando "/help" para obtener instrucciones y reglas del juego.
 Envío de imágenes de Pokémon a los usuarios.
 Recepción de respuestas de los usuarios en forma de texto.
+
 Backend
 El backend del bot de Telegram se encargará de gestionar el juego, verificar respuestas, llevar un registro de la puntuación y enviar retroalimentación. Deberá proporcionar las siguientes funcionalidades:
 

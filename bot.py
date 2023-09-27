@@ -14,7 +14,6 @@ Basic Echobot example, repeats messages.
 Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
-
 import logging
 
 from telegram import ForceReply, Update
