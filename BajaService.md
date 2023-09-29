@@ -28,8 +28,7 @@ Ultima Actualizacion: 2023-09-29
 - [Another link](#)
 
 ## Objetivo ¿Qué y por qué estamos haciendo esto?
-We're making this bot in order to deeply understands how telegram bots work, what options they provide
-and how to interact with APIs in general.
+"Estamos haciendo esta práctica para conocer más a fondo el manejo de APIs y la funcionalidad de los bots en Telegram."
 ## Metas
 - Creacion de un bot de telegram
 
