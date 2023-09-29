@@ -41,15 +41,15 @@ _-Diagramas de flujo si es necesario.
 
 _-Herramientas de dibujo [Excalidraw](https://excalidraw.com) [Canva](https://www.canva.com/es_mx/)_
 
-_Cover major changes:_
+_Cubrir cambios importantes:_
 
- _- What are the new functions that you will write?_
+ _- ¿Cuáles son las nuevas funciones que escribirás?_
 
- _- Why do you need new components?_
+ _- ¿Por qué necesitas nuevos componentes?_
 
- _- Is there any code that can be reusable?_
+ _- ¿Existe algún código que pueda ser reutilizable?_
 
-_Don’t elaborate deeply on the implementation details._
+_No entres en detalles sobre los detalles de implementación._
 
 ## Solución 1
 ### Frontend
