@@ -1,73 +1,87 @@
 # BajaService
 Link: [Link to this doc](#)
 
-Author(s): Alejandro Valenzuela Ramirez
+Autor(s): Alejandro Valenzuela Ramirez
 
-Status: [Draft]
+Estatus: [Desarrollo]
 
-Ultima Actualizacion: 2023-09-20
+Ultima Actualizacion: 2023-09-29
 
-Contents
-Goals
-Non-Goals
-Background
-Overview
-Detailed Design
-Solution 1
-Frontend
-Backend
-Solution 2
-Frontend
-Backend
-Considerations
-Metrics
-Links
-A link
-Another link
-Objective_What and why are we doing this?_
-We're making this bot in order to deeply understands how telegram bots work, what options they provide and how to interact with APIs in general.
+## Contenido
+- Metas
+  BajaService: Llegando a Todo Tipo de Usuario que Busca Servicios de Marketing o Publicidad a Través de Recomendaciones de las Empresas con Mejor Reseña en Cada Municipio de Baja California.
+- Descripcion General
+  BajaService es un bot de Telegram que ofrece a empresas o usuarios particulares servicios de creación de contenido digital, incluyendo fotografía, creación de páginas web, publicidad, reels y manejo de redes sociales. Las empresas pueden obtener visibilidad dentro del bot pagando una cuota trimestral. Esto permite que usuarios como hoteles, restaurantes, viñedos, entre otros, que necesitan estos servicios, puedan descubrir las mejores empresas de marketing posicionadas en el mercado.
+- Diseño Detallado
+  - Solución 1
+    - Frontend
+    - Backend
+  - Solución 2
+    - Frontend
+    - Backend
+- Consideraciones
+- Metrics
 
-Goals
-Create a telegram bot
-Non-Goals
-Non-Goals
-Background
-Telegram bots are having a boom right now. We choose to create one in order to keep up with the current state of the tech industry.
 
-Overview
-This bot will process a given image. We'll have some buttons to choose between processing filters. It'll also try to identify the object of the given image.
+## Links
+- [A link](#)
+- [Another link](#)
 
-Detailed Design
-Use diagrams where necessary.
+## Objetivo ¿Qué y por qué estamos haciendo esto?
+We're making this bot in order to deeply understands how telegram bots work, what options they provide
+and how to interact with APIs in general.
+## Metas
+- Creacion de un bot de telegram
 
-Tools like Excalidraw are good resources for this.
+## Background
+Decidimos crear en la materia de Backend un bot en telegram para aprender mas sobre esta herramienta.
+## Descripcion general
+Este bot ofrecerá cinco botones, cada uno representando una ciudad del estado de Baja California: Ensenada, San Quintín, Rosarito, Tijuana, Tecate y Mexicali. Al seleccionar cualquiera de estos botones, aparecerá un diccionario con información detallada y un portafolio de cada empresa que ofrece servicios digitales.
+## Diseño Detallado
+_-Diagramas de flujo si es necesario.
 
-Cover major changes:
+_-Herramientas de dibujo [Excalidraw](https://excalidraw.com) [Canva](https://www.canva.com/es_mx/)_
 
-- What are the new functions that you will write?
+_Cover major changes:_
 
-- Why do you need new components?
+ _- What are the new functions that you will write?_
 
-- Is there any code that can be reusable?
+ _- Why do you need new components?_
 
-Don’t elaborate deeply on the implementation details.
+ _- Is there any code that can be reusable?_
 
-Solution 1
-Frontend
+_Don’t elaborate deeply on the implementation details._
+
+## Solución 1
+### Frontend
 Telegram
-
-Backend
+### Backend
 Python
 
-Solution 2
-Frontend
-WeChat
+## Solución 2
+### Frontend
+App Movil
+### Backend
+Node.js
 
-Backend
-Javascript
+## Consideraciones
+_Preocupaciones(Escalabilidad, Usabilidad) / Compensaciones / Deuda Técnica_
 
-Considerations
-Concerns / trade-offs / tech debt
+## Metricas
+_¿Qué datos necesitas validar antes de lanzar esta característica?_
+ - Rendimiento
+ - Satisfaccion del Usuario
+ - Errorer y Problemas
+ - Participación del Usuario
 
-Metrics
-What data do you need to validate before launching this feature?
+
+
+
+
+
+
+
+
+
+
+
