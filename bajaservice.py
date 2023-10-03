@@ -25,15 +25,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Sends a message with three inline buttons attached."""
     keyboard = [
         [
-            InlineKeyboardButton("Option 1", callback_data="1"),
-            InlineKeyboardButton("Option 2", callback_data="2"),
+            InlineKeyboardButton("Ofrece", callback_data="1"),
+            InlineKeyboardButton("Solicita", callback_data="2"),
         ],
-        [InlineKeyboardButton("Option 3", callback_data="3")],
     ]
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await update.message.reply_text("Please choose:", reply_markup=reply_markup)
+    await update.message.reply_text("Baja Service: Transformando Ideas en Experiencias Digitales.\n"
+               "Ofrece o solicita algún servicio", reply_markup=reply_markup)
 
 
 async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
