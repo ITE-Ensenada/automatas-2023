@@ -49,26 +49,26 @@ async def send_random_pokemon(chat_id, bot, user_id, context):
     """Send a random Pokémon image to the user and return the correct Pokémon name."""
     # Generate a list of Pokémon not shown to the user
     available_pokemons = [pokemon for pokemon in pokemons if pokemon["name"].lower() not in shown_pokemons.get(user_id, [])]
-    
+
     if not available_pokemons:
         await end_game(chat_id, user_id, context.bot, context)
         return
-    
+
     random_pokemon = random.choice(available_pokemons)
     shown_pokemons.setdefault(user_id, []).append(random_pokemon["name"].lower())
-    
+
     # Shuffle the options including the correct answer
     options = [random_pokemon["name"]]
-    while len(options) < 4:
+    while len(options) < 3:  # Change this line to 3 options
         random_option = random.choice(pokemons)["name"]
         if random_option not in options:
             options.append(random_option)
-    
+
     random.shuffle(options)
-    
+
     image_path = os.path.join("pokemon_images", random_pokemon["image"])
     with open(image_path, "rb") as image_file:
-        # Agregar el temporizador al caption
+        # Add the timer to the caption
         caption = f"Time left: {TIMEOUT_DURATION} seconds\nGuess the Pokémon's name from the image!"
         keyboard = ReplyKeyboardMarkup(
             [[KeyboardButton(option)] for option in options], one_time_keyboard=True
@@ -80,10 +80,10 @@ async def send_random_pokemon(chat_id, bot, user_id, context):
             reply_markup=keyboard,
         )
 
-    # Iniciar el temporizador
+    # Start the timer
     context.user_data["timer_task"] = asyncio.create_task(timer_callback(chat_id, user_id, bot, context))
 
-    return random_pokemon["name"].lower()  # Devuelve el nombre del Pokémon en minúsculas
+    return random_pokemon["name"].lower()  # Return the lowercase Pokémon name
 
 async def check_answer(update: Update, context: CallbackContext):
     user = update.effective_user
@@ -132,13 +132,24 @@ async def end_game(chat_id, user_id, bot, context):
     del user_scores[user_id]
     del shown_pokemons[user_id]
 
-async def handle_menu_choice(update: Update, context: CallbackContext):
-    user_choice = update.message.text
+async def rules(update: Update, context: CallbackContext):
+    """Provide rules for the game."""
+    rules_text = (
+        "Game Rules:\n"
+        "1. You will be shown an image of a Pokémon.\n"
+        "2. You have a limited time to guess the Pokémon's name.\n"
+        "3. You can provide your answer in text.\n"
+        "4. The bot will verify your answer and provide feedback.\n"
+        "5. You earn points for correct answers.\n"
+        "6. You can check your current score at any time."
+    )
+    await update.message.reply_text(rules_text)
 
-    if user_choice == "Start":
-        await start(update, context)
-    elif user_choice == "Help":
-        await help_command(update, context)
+async def pokedex(update: Update, context: CallbackContext):
+    """List the available Pokémon names."""
+    pokemon_names = [pokemon["name"] for pokemon in pokemons]
+    pokemon_list_text = "Available Pokémon:\n" + "\n".join(pokemon_names)
+    await update.message.reply_text(pokemon_list_text)
 
 def main() -> None:
     """Start the bot."""
@@ -148,6 +159,8 @@ def main() -> None:
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("rules", rules))
+    application.add_handler(CommandHandler("pokedex", pokedex))
 
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, check_answer))
 
