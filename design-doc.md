@@ -17,10 +17,6 @@ Status: [Reviewed]
   - Backend
 - Consideraciones
 
-## Links
-- [Un link](#)
-- [Otro link](#)
-
 ## Objetivo
 Crear un bot de Telegram que permita a los usuarios jugar un quiz de Pokémon, donde deben adivinar el nombre del Pokémon basado en una imagen y recibir retroalimentación sobre sus respuestas.
 
@@ -63,7 +59,7 @@ El backend del bot de Telegram se encargará de gestionar el juego, verificar re
 - Envío de mensajes de retroalimentación al usuario después de cada respuesta.
 
 ## Consideraciones
-- Se requiere acceso a una base de datos de Pokémon con imágenes y nombres.
+- Se puede considerar trabajar con una base de datos para almacenar imagenes y nombres a una mayor escala.
 - Se debe manejar la interacción con múltiples usuarios de forma simultánea.
 - Se debe garantizar que el bot sea fácil de usar y proporcione instrucciones claras.
 
@@ -77,7 +73,3 @@ En lugar de usar un bot de Telegram se usaría uno de Discord. Esto necesitaría
 
 ## Consideraciones
 - La librería solo está en Python. Tal vez podemos entender cómo funciona para implementarla por nuestra cuenta en otro lenguaje si es necesario.
-
-## Métricas
-- Checar Web Vitals para entender si la app carga de forma adecuada y tiene buen rendimiento.
-- Validar cuántos usuarios terminan el proceso de migración de una playlist.
