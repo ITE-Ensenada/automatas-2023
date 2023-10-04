@@ -17,15 +17,32 @@ logger = logging.getLogger(__name__)
 # List of Pokémon images and their names (you can add more)
 pokemons = [
     {"name": "Bulbasaur", "image": "bulbasaur.jpg"},
+    {"name": "Turtwig", "image": "turtwig.jpg"},
     {"name": "Ivysaur", "image": "ivysaur.jpg"},
+    {"name": "Grotle", "image": "grotle.jpg"},
     {"name": "Venusaur", "image": "venusaur.jpg"},
+    {"name": "Torterra", "image": "torterra.jpg"},
     {"name": "Charmander", "image": "charmander.jpg"},
+    {"name": "Chimchar", "image": "chimchar.jpg"},
     {"name": "Charmeleon", "image": "charmeleon.jpg"},
+    {"name": "Monferno", "image": "monferno.jpg"},
     {"name": "Charizard", "image": "charizard.jpg"},
+    {"name": "Infernape", "image": "infernape.jpg"},
     {"name": "Squirtle", "image": "squirtle.jpg"},
     {"name": "Wartortle", "image": "wartortle.jpg"},
     {"name": "Blastoise", "image": "blastoise.jpg"},
     {"name": "Pikachu", "image": "pikachu.jpg"},
+    {"name": "Raichu", "image": "raichu.jpg"},
+    {"name": "Caterpie", "image": "caterpie.jpg"},
+    {"name": "Metapod", "image": "metapod.jpg"},
+    {"name": "Butterfree", "image": "butterfree.jpg"},
+    {"name": "Psyduck", "image": "psyduck.jpg"},
+    {"name": "Golduck", "image": "golduck.jpg"},
+    {"name": "Poliwag", "image": "poliwag.jpg"},
+    {"name": "Poliwhirl", "image": "poliwhirl.jpg"},
+    {"name": "Poliwrath", "image": "poliwrath.jpg"},
+    {"name": "Voltorb", "image": "voltorb.jpg"},
+    {"name": "Electrode", "image": "electrode.jpg"},
 ]
 
 # Dictionary to store user scores
@@ -69,7 +86,7 @@ async def send_random_pokemon(chat_id, bot, user_id, context):
     image_path = os.path.join("pokemon_images", random_pokemon["image"])
     with open(image_path, "rb") as image_file:
         # Add the timer to the caption
-        caption = f"Time left: {TIMEOUT_DURATION} seconds\nGuess the Pokémon's name from the image!"
+        caption = f"Tiempo: {TIMEOUT_DURATION} segundos\n¿Quién es ese Pokémon?"
         keyboard = ReplyKeyboardMarkup(
             [[KeyboardButton(option)] for option in options], one_time_keyboard=True
         )
@@ -98,10 +115,10 @@ async def check_answer(update: Update, context: CallbackContext):
     if correct_answer:
         if message_text == correct_answer:
             user_scores[user.id]["score"] += 1
-            await update.message.reply_text(f"Correct! You've earned 1 point. Your total score: {user_scores[user.id]['score']}.")
+            await update.message.reply_text(f"¡Correcto! Obtuviste +1 punto\n PUNTOS TOTALES: {user_scores[user.id]['score']}.")
 
         else:
-            await update.message.reply_text(f"Incorrect! The correct answer is: {correct_answer.capitalize()}.")
+            await update.message.reply_text(f"¡Incorrecto! La respuesta era: {correct_answer.capitalize()}.") 
 
     # Actualiza el total de Pokémon mostrados al usuario
     user_scores[user.id]["total_pokemons"] += 1
