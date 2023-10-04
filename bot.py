@@ -51,22 +51,40 @@ user_scores = {}
 shown_pokemons = {}
 # Timeout duration in seconds
 TIMEOUT_DURATION = 10
+# Agrega una variable global para realizar un seguimiento del estado del juego
+game_state = {}
 
 async def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
     user_scores[user.id] = {"score": 0, "total_pokemons": 0}  # Initialize user's score and total Pokémon count
+    game_state[user.id] = {"running": True}  # Inicializa el estado del juego como en ejecución
     await send_random_pokemon(update.message.chat_id, context.bot, user.id, context)
+
+async def stop(update: Update, context: CallbackContext) -> None:
+    user = update.effective_user
+    if user.id in game_state and game_state[user.id]["running"]:
+        # Si el usuario está en medio del juego, detiene el juego y cancela el temporizador si está activo
+        game_state[user.id]["running"] = False  # Establece el estado del juego como detenido
+        timer_task = context.user_data.get("timer_task")
+        if timer_task:
+            timer_task.cancel()
+        await end_game(update.message.chat_id, user.id, context.bot, context)
+        await update.message.reply_text("El juego ha sido detenido. ¡Hasta luego!")
+    else:
+        await update.message.reply_text("No hay ningún juego en curso para detener.")
 
 async def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
     await update.message.reply_text("Guess the Pokémon's name from the image!")
+    
 
 async def send_random_pokemon(chat_id, bot, user_id, context):
     """Send a random Pokémon image to the user and return the correct Pokémon name."""
     # Generate a list of Pokémon not shown to the user
     available_pokemons = [pokemon for pokemon in pokemons if pokemon["name"].lower() not in shown_pokemons.get(user_id, [])]
-
+    if user_id in game_state and not game_state[user_id]["running"]:
+        return
     if not available_pokemons:
         await end_game(chat_id, user_id, context.bot, context)
         return
@@ -178,6 +196,8 @@ def main() -> None:
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("rules", rules))
     application.add_handler(CommandHandler("pokedex", pokedex))
+    application.add_handler(CommandHandler("stop", stop))
+
 
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, check_answer))
 
