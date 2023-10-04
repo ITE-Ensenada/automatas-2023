@@ -1,6 +1,7 @@
 import logging
 import random
 import os
+import asyncio
 from telegram import Update, InputFile, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
@@ -31,6 +32,8 @@ pokemons = [
 user_scores = {}
 # Dictionary to keep track of shown Pokémon
 shown_pokemons = {}
+# Timeout duration in seconds
+TIMEOUT_DURATION = 10
 
 async def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
@@ -65,15 +68,21 @@ async def send_random_pokemon(chat_id, bot, user_id, context):
     
     image_path = os.path.join("pokemon_images", random_pokemon["image"])
     with open(image_path, "rb") as image_file:
+        # Agregar el temporizador al caption
+        caption = f"Time left: {TIMEOUT_DURATION} seconds\nGuess the Pokémon's name from the image!"
         keyboard = ReplyKeyboardMarkup(
             [[KeyboardButton(option)] for option in options], one_time_keyboard=True
         )
         await bot.send_photo(
             chat_id=chat_id,
             photo=InputFile(image_file),
-            caption="Guess the Pokémon's name from the image!",
+            caption=caption,
             reply_markup=keyboard,
         )
+
+    # Iniciar el temporizador
+    context.user_data["timer_task"] = asyncio.create_task(timer_callback(chat_id, user_id, bot, context))
+
     return random_pokemon["name"].lower()  # Devuelve el nombre del Pokémon en minúsculas
 
 async def check_answer(update: Update, context: CallbackContext):
@@ -91,11 +100,28 @@ async def check_answer(update: Update, context: CallbackContext):
             user_scores[user.id]["score"] += 1
             await update.message.reply_text(f"Correct! You've earned 1 point. Your total score: {user_scores[user.id]['score']}.")
 
+        else:
+            await update.message.reply_text(f"Incorrect! The correct answer is: {correct_answer.capitalize()}.")
+
     # Actualiza el total de Pokémon mostrados al usuario
     user_scores[user.id]["total_pokemons"] += 1
 
+    # Cancelar el temporizador
+    timer_task = context.user_data.get("timer_task")
+    if timer_task:
+        timer_task.cancel()
+
     # Envía la siguiente imagen y actualiza el nombre correcto
     correct_answer = await send_random_pokemon(update.message.chat_id, context.bot, user.id, context)
+    context.user_data["correct_answer"] = correct_answer
+
+async def timer_callback(chat_id, user_id, bot, context):
+    await asyncio.sleep(TIMEOUT_DURATION)
+    if user_id in shown_pokemons:
+        shown_pokemons[user_id].pop()  # Eliminar el Pokémon actual para que no cuente como respondido
+    await bot.send_message(chat_id, "Time's up! You didn't answer in time. The correct answer was not counted.")
+    # Envía la siguiente imagen y actualiza el nombre correcto
+    correct_answer = await send_random_pokemon(chat_id, bot, user_id, context)
     context.user_data["correct_answer"] = correct_answer
 
 async def end_game(chat_id, user_id, bot, context):
@@ -113,7 +139,6 @@ async def handle_menu_choice(update: Update, context: CallbackContext):
         await start(update, context)
     elif user_choice == "Help":
         await help_command(update, context)
-
 
 def main() -> None:
     """Start the bot."""
