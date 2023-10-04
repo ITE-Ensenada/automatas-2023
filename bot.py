@@ -62,18 +62,23 @@ async def start(update: Update, context: CallbackContext) -> None:
     user_scores[user.id] = {"score": 0, "total_pokemons": 0}
     game_state[user.id] = {"running": True}
 
-    # Muestra el menú principal cuando un usuario inicia una conversación
+    # Envía la imagen de pokemon.jpg primero
+    image_path = os.path.join("pokemon_images", "pokemon.jpg")
+    with open(image_path, "rb") as image_file:
+        await context.bot.send_photo(chat_id=update.message.chat_id, photo=InputFile(image_file))
+
+    # Espera 1 segundo antes de mostrar el menú principal
+    await sleep(1)
+
+    # Muestra el menú principal
     main_menu_keyboard = ReplyKeyboardMarkup(
         [["/start", "/help"], ["/rules", "/pokedex"]],
         one_time_keyboard=True,
         resize_keyboard=True,
     )
-    await update.message.reply_text("¡Bienvenido! ¿Qué deseas hacer?", reply_markup=main_menu_keyboard)
+    
 
-    # Espera 1 segundo antes de comenzar el juego
-    await sleep(1)
-
-    # Send the second Pokémon image and start the game
+    # Comienza el juego enviando la segunda imagen de Pokémon
     correct_answer = await send_random_pokemon(update.message.chat_id, context.bot, user.id, context)
     context.user_data["correct_answer"] = correct_answer
 
