@@ -4,6 +4,8 @@ import os
 import asyncio
 from telegram import Update, InputFile, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
+from asyncio import sleep
+
 
 # Enable logging
 logging.basicConfig(
@@ -14,8 +16,9 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
 
-# List of Pokémon images and their names (you can add more)
+# Lista de los pokemon en la pokedex
 pokemons = [
+    {"name": "Pokemon", "image": "pokemon.jpg"},
     {"name": "Bulbasaur", "image": "bulbasaur.jpg"},
     {"name": "Turtwig", "image": "turtwig.jpg"},
     {"name": "Ivysaur", "image": "ivysaur.jpg"},
@@ -55,11 +58,24 @@ TIMEOUT_DURATION = 10
 game_state = {}
 
 async def start(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
     user = update.effective_user
-    user_scores[user.id] = {"score": 0, "total_pokemons": 0}  # Initialize user's score and total Pokémon count
-    game_state[user.id] = {"running": True}  # Inicializa el estado del juego como en ejecución
-    await send_random_pokemon(update.message.chat_id, context.bot, user.id, context)
+    user_scores[user.id] = {"score": 0, "total_pokemons": 0}
+    game_state[user.id] = {"running": True}
+
+    # Muestra el menú principal cuando un usuario inicia una conversación
+    main_menu_keyboard = ReplyKeyboardMarkup(
+        [["/start", "/help"], ["/rules", "/pokedex"]],
+        one_time_keyboard=True,
+        resize_keyboard=True,
+    )
+    await update.message.reply_text("¡Bienvenido! ¿Qué deseas hacer?", reply_markup=main_menu_keyboard)
+
+    # Espera 1 segundo antes de comenzar el juego
+    await sleep(1)
+
+    # Send the second Pokémon image and start the game
+    correct_answer = await send_random_pokemon(update.message.chat_id, context.bot, user.id, context)
+    context.user_data["correct_answer"] = correct_answer
 
 async def stop(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
@@ -71,8 +87,16 @@ async def stop(update: Update, context: CallbackContext) -> None:
             timer_task.cancel()
         await end_game(update.message.chat_id, user.id, context.bot, context)
         await update.message.reply_text("El juego ha sido detenido. ¡Hasta luego!")
-    else:
-        await update.message.reply_text("No hay ningún juego en curso para detener.")
+
+    # Muestra el menú principal y elimina el estado de juego del usuario
+    main_menu_keyboard = ReplyKeyboardMarkup(
+        [["/start", "/help"], ["/rules", "/pokedex"]],
+        one_time_keyboard=True,
+        resize_keyboard=True,
+    )
+    await update.message.reply_text("¿Qué deseas hacer?", reply_markup=main_menu_keyboard)
+    if user.id in game_state:
+        del game_state[user.id]
 
 async def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
@@ -154,7 +178,7 @@ async def timer_callback(chat_id, user_id, bot, context):
     await asyncio.sleep(TIMEOUT_DURATION)
     if user_id in shown_pokemons:
         shown_pokemons[user_id].pop()  # Eliminar el Pokémon actual para que no cuente como respondido
-    await bot.send_message(chat_id, "Time's up! You didn't answer in time. The correct answer was not counted.")
+    await bot.send_message(chat_id, "Se acabo el tiempo, adivina el nuevo pokemon.")
     # Envía la siguiente imagen y actualiza el nombre correcto
     correct_answer = await send_random_pokemon(chat_id, bot, user_id, context)
     context.user_data["correct_answer"] = correct_answer
@@ -162,7 +186,7 @@ async def timer_callback(chat_id, user_id, bot, context):
 async def end_game(chat_id, user_id, bot, context):
     user_score = user_scores[user_id]["score"]
     total_pokemons = user_scores[user_id]["total_pokemons"]
-    await bot.send_message(chat_id, f"Game Over! Your score: {user_score} correct answers out of {total_pokemons} Pokémon.")
+    await bot.send_message(chat_id, f"Fin! TU PUNTUAJE: {user_score} Adivinaste un total de {total_pokemons} Pokémon.")
     # Eliminar el estado del juego del usuario al finalizar
     del user_scores[user_id]
     del shown_pokemons[user_id]
@@ -170,13 +194,13 @@ async def end_game(chat_id, user_id, bot, context):
 async def rules(update: Update, context: CallbackContext):
     """Provide rules for the game."""
     rules_text = (
-        "Game Rules:\n"
-        "1. You will be shown an image of a Pokémon.\n"
-        "2. You have a limited time to guess the Pokémon's name.\n"
-        "3. You can provide your answer in text.\n"
-        "4. The bot will verify your answer and provide feedback.\n"
-        "5. You earn points for correct answers.\n"
-        "6. You can check your current score at any time."
+        "Reglas:\n"
+        "1. El bot enviará una imagen de un Pokémon al usuario.\n"
+        "2. El usuario debe adivinar el nombre del Pokémon en un tiempo limitado.\n"
+        "3. El usuario puede proporcionar su respuesta en texto.\n"
+        "4. El bot verificará la respuesta del usuario y proporcionará retroalimentación.\n"
+        "5. El usuario acumulará puntos por respuestas correctas.\n"
+        "6. El usuario puede ver su puntuación actual en cualquier momento."
     )
     await update.message.reply_text(rules_text)
 
