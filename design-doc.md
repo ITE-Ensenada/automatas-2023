@@ -45,6 +45,7 @@ El frontend del bot de Telegram consistirá en la interfaz de usuario que intera
 - Comando "/rules" para obtener instrucciones y reglas del juego.
 - Comando "/pokedex" para obtener lista de pokemons en el juego.
 - Comando "/stop" termina el juego.
+- Comando "/About" para obtener informacion acerca del bot.
 - Envío de imágenes de Pokémon a los usuarios.
 - Recepción de respuestas de los usuarios en forma de texto.
 
