@@ -235,8 +235,7 @@ async def rules(update: Update, context: CallbackContext):
         "3. El usuario puede proporcionar su respuesta en texto.\n"
         "4. El bot verificará la respuesta del usuario y proporcionará retroalimentación.\n"
         "5. El usuario acumulará puntos por respuestas correctas.\n"
-        "6. El usuario puede ver su puntuación actual en cualquier momento.\n"
-        "7. Despues de 30 segundos de inactividad el quiz se finalizara."
+        "6. El usuario puede ver su puntuación actual en cualquier momento."
     )
     await update.message.reply_text(rules_text)
 

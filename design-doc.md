@@ -27,7 +27,6 @@ Crear un bot de Telegram que permita a los usuarios jugar un quiz de Pokémon, d
 4. El bot verificará la respuesta del usuario y proporcionará retroalimentación.
 5. El usuario acumulará puntos por respuestas correctas.
 6. El usuario puede ver su puntuación actual en cualquier momento.
-7. Despues de 30 segundos de inactividad el quiz se finalizara.
 
 ## Características
 - Sistema de puntuación.
