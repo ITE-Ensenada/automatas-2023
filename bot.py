@@ -15,9 +15,8 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
 
-# Lista de los pokemon en la pokedex
+# Lista de los pokemon junto a sus imagenes /pokedex
 pokemons = [
-    {"name": "Pokemon", "image": "pokemon.jpg"},
     {"name": "Bulbasaur", "image": "bulbasaur.jpg"},
     {"name": "Turtwig", "image": "turtwig.jpg"},
     {"name": "Ivysaur", "image": "ivysaur.jpg"},
@@ -46,12 +45,14 @@ pokemons = [
     {"name": "Voltorb", "image": "voltorb.jpg"},
     {"name": "Electrode", "image": "electrode.jpg"},
 ]
+#Imagenes secundarias
+logos = [{"name": "Pokemon", "image": "pokemon.jpg"}]
 
-# Dictionary to store user scores
+# Puntuajes
 user_scores = {}
-# Dictionary to keep track of shown Pokémon
+# Pokemons 
 shown_pokemons = {}
-# Timeout duration in seconds
+# Tiempo
 TIMEOUT_DURATION = 10
 # Agrega una variable global para realizar un seguimiento del estado del juego
 game_state = {}
@@ -129,6 +130,8 @@ async def send_random_pokemon(chat_id, bot, user_id, context):
 
     random_pokemon = random.choice(available_pokemons)
     shown_pokemons.setdefault(user_id, []).append(random_pokemon["name"].lower())
+
+    
 
     # Shuffle the options including the correct answer
     options = [random_pokemon["name"]]
@@ -209,11 +212,11 @@ async def end_game(chat_id, user_id, bot, context):
     if user_id in user_scores:
         user_score = user_scores[user_id]["score"]
         total_pokemons = user_scores[user_id]["total_pokemons"]
-        await bot.send_message(chat_id, f"Fin! Adivinaste {user_score} de un total de {total_pokemons} Pokémon de la Pokedex.")
+        await bot.send_message(chat_id, f"#FINAL\n Adivinaste {user_score} de un total de {total_pokemons} Pokémon de la Pokedex.")
         # Cancela la tarea de auto_stop si está activa
         stop_task = context.user_data.get("stop_task")
-        if stop_task:
-            stop_task.cancel()
+        if stop_task and not stop_task.done():
+            stop_task.cancel()  # Cancela el temporizador de inactividad
         # Eliminar el estado del juego del usuario al finalizar
         del user_scores[user_id]
         del shown_pokemons[user_id]
@@ -239,19 +242,17 @@ async def pokedex(update: Update, context: CallbackContext):
     pokemon_names = [pokemon["name"] for pokemon in pokemons]
     pokemon_list_text = "Pokémon Disponibles:\n" + "\n".join(pokemon_names)
     await update.message.reply_text(pokemon_list_text)
-
+# Función principal que inicia la aplicación
 def main() -> None:
     """Start the bot."""
     application = Application.builder().token("6495306746:AAGHk08d4iZIOiOe2w3fLjz2SlHRFtF12o8").build()
 
     os.makedirs("pokemon_images", exist_ok=True)
-
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("rules", rules))
     application.add_handler(CommandHandler("pokedex", pokedex))
     application.add_handler(CommandHandler("stop", stop))
-
 
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, check_answer))
 
