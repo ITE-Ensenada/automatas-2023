@@ -14,7 +14,7 @@ Basic Echobot example, repeats messages.
 Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
-
+import asyncio
 import logging
 
 from telegram import ForceReply, Update, InlineKeyboardButton,InlineKeyboardMarkup, InputFile
@@ -42,6 +42,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         InlineKeyboardButton("Operaciones Basicas", callback_data="2"),
     ],
 
+
     [InlineKeyboardButton("Opcion 3", callback_data="3")],
 
     reply_markup= InlineKeyboardMarkup(keyboard)
@@ -54,29 +55,115 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         
     #)
 
-async def send_image_with_text(update: Update, context: CallbackContext) -> None:
-    image_path='Img/R.jpg'
+async def image_resta(update: Update, context: CallbackContext) -> None:
+    chat_id = update.effective_chat.id
+    image_path = 'C:/backend-20231/my-projectbot/Img/resta.jpg'
+    caption = 'Si tengo 5 manzanas en una cesta, y quito 2, dentro de la cesta me quedarán 3 manzanas. es decir que 5 menos 2 es igual a 3.'
 
     try:
-        await update.callback_query.message.reply_photo(
-            photo=InputFile(image_path),
-            caption='Aqui tienes un ejemplo'
-    )
+        with open(image_path, 'rb') as photo_file:
+            await context.bot.send_photo(chat_id=chat_id, photo=InputFile(photo_file), caption=caption),
     except Exception as e:
-        await update.callback_query.message.reply_text(f"Error: {str(e)}")
+        await context.bot.send_message(chat_id=chat_id, text='No se puede cargar la image {str(e)}')
+
+async def image_suma(update: Update, context: CallbackContext) -> None:
+    chat_id = update.effective_chat.id
+    image_path = 'C:/backend-20231/my-projectbot/Img/suma.jpg'
+    caption = 'Si tengo 2 manzanas verdes y 3 manzanas rojas, y quiero saber cuántas manzanas tengo en total, junto todas las manzanas en un solo cesto y las cuento: tengo 5 manzanas en total, por lo tanto 2 + 3  es igual a 5.'
+
+    try:
+        with open(image_path, 'rb') as photo_file:
+            await context.bot.send_photo(chat_id=chat_id, photo=InputFile(photo_file), caption=caption),
+    except Exception as e:
+        await context.bot.send_message(chat_id=chat_id, text="No se puede cargar la image {str(e)}")
+
+async def send_image(update: Update, context: CallbackContext) -> None:
+    chat_id = update.effective_chat.id
+    image_path = 'C:/backend-20231/my-projectbot/Img/operaciones.jpg'
+    caption = 'Hola bienvenido al area de operaciones aritmeticas, Que leccion deseas aprender?'
+
+    keyboard = [[InlineKeyboardButton("Suma", callback_data="seccion_1"),
+                InlineKeyboardButton("Resta", callback_data="seccion_2")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    try:
+        with open(image_path, 'rb') as photo_file:
+            await context.bot.send_photo(chat_id=chat_id, photo=InputFile(photo_file), caption=caption, reply_markup=reply_markup)
+    except Exception as e:
+        await context.bot.send_message(chat_id=chat_id, text="No se pudo cargar la imagen: {str(e)}")
+
+imagenes = [
+    'C:/backend-20231/my-projectbot/Img/num1.jpg',
+    'C:/backend-20231/my-projectbot/Img/num2.jpg',
+    'C:/backend-20231/my-projectbot/Img/num3.jpg',
+    'C:/backend-20231/my-projectbot/Img/num4.jpg',
+    'C:/backend-20231/my-projectbot/Img/num5.jpg'
+]
+
+imagenes_leccion_2 = [
+    'C:/backend-20231/my-projectbot/Img/num1obj.jpg',
+    'C:/backend-20231/my-projectbot/Img/num2obj.jpg',
+    'C:/backend-20231/my-projectbot/Img/num3obj.jpg',
+    'C:/backend-20231/my-projectbot/Img/num4obj.jpg',
+    'C:/backend-20231/my-projectbot/Img/num5obj.jpg'
+]
+
+async def enviar_imagenes_leccion_2(update, context):
+    chat_id = update.effective_chat.id
+    for imagen_path in imagenes_leccion_2:
+        with open(imagen_path, 'rb') as photo_file:
+            await context.bot.send_photo(chat_id=chat_id, photo=InputFile(photo_file))
+        await asyncio.sleep(10)
+
+async def enviar_imagenes_separadas(update, context):
+    chat_id = update.effective_chat.id
+    for imagen_path in imagenes:
+        with open(imagen_path, 'rb') as photo_file:
+            await context.bot.send_photo(chat_id=chat_id, photo=InputFile(photo_file))
+        await asyncio.sleep(10)
 
 async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     data = query.data
 
     if data == "1":
-        await query.edit_message_text("Muy bien vamos a comenzar con la leccion de Numeros \n\n" "Los numeros son palabras especiales que usamos para contar cosas, como juguetes, amigos o galletas.")
+        lecciones = [
+            [InlineKeyboardButton("Contar", callback_data="leccion_1")],
+            [InlineKeyboardButton("Contar con objetos", callback_data="leccion_2")]
+        ]
+        reply_markup = InlineKeyboardMarkup(lecciones)
+        await query.edit_message_text("Muy bien vamos a comenzar con la leccion de Numeros \n\n" "Los numeros son palabras especiales que usamos para contar cosas, como juguetes, amigos o galletas.",reply_markup=reply_markup)
+    elif data == "leccion_1":
+        await enviar_imagenes_separadas(update, context)
+    elif data == "leccion_2":
+        await enviar_imagenes_leccion_2(update, context)
+    elif data == "seccion_1":
+        ejemplo = [
+            [InlineKeyboardButton("Ejemplo", callback_data="ejemplos")]
+        ]
+        reply_markup = InlineKeyboardMarkup(ejemplo)
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Sumar es juntar dos o más cosas en un grupo, para saber cuántas hay en total \n\n" "Si te sientes perdido solo haz click en el siguiente boton", reply_markup=reply_markup)   
+    elif data == "ejemplos":
+        await image_suma(update, context)
+    elif data == "seccion_2":
+        resta = [
+            [InlineKeyboardButton("Ejemplo", callback_data="ejemplos_resta")]
+        ]
+        reply_markup = InlineKeyboardMarkup(resta)
+        await context.bot.send_message(chat_id=update.effective_chat.id, text='Restar es quitar una cierta cantidad a otra que ya teníamos \n\n' 'Si te sientes perdido solo haz click en el siguiente boton', reply_markup=reply_markup)
+    elif data == "ejemplos_resta":
+        await image_resta(update, context)
     elif data == "2":
-        await send_image_with_text(update, context)
+        keyboard = [[InlineKeyboardButton("mostrar imagen", callback_data="show_image")]]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.edit_message_text("Haz clic en el boton para mostrar la imagen:", reply_markup=reply_markup)
+    elif data == "show_image":
+        await send_image(update, context)
     #await query.answer()
     
-   
     #await query.edit_message_text(text=f"Selected option {query.data}")
+
+
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /help is issued."""
