@@ -53,7 +53,7 @@ user_scores = {}
 # Pokemons 
 shown_pokemons = {}
 # Tiempo
-TIMEOUT_DURATION = 10
+TIMEOUT_DURATION = 15
 # Agrega una variable global para realizar un seguimiento del estado del juego
 game_state = {}
 
@@ -95,29 +95,31 @@ async def stop(update: Update, context: CallbackContext) -> None:
         timer_task = context.user_data.get("timer_task")
         if timer_task:
             timer_task.cancel()
+        
+        # Finaliza el juego y muestra el puntaje solo una vez
         await end_game(update.message.chat_id, user.id, context.bot, context)
-        await update.message.reply_text("El juego ha sido detenido. ¡Hasta luego!")
 
     # Muestra el menú principal y elimina el estado de juego del usuario
     main_menu_keyboard = ReplyKeyboardMarkup(
-        [["/start", "/help"], ["/rules", "/pokedex"]],
+        [["/start", "/stop"], ["/help", "/rules"], ["/about", "/pokedex"]],
         one_time_keyboard=True,
         resize_keyboard=True,
     )
     if user.id in game_state:
         del game_state[user.id]
-    await update.message.reply_text(text="Has vuelto al menú principal.", reply_markup=main_menu_keyboard)
+
+    # Envía el menú principal sin un mensaje adicional
+    await update.message.reply_text("Juego Finalizado", reply_markup=main_menu_keyboard)
 
 async def help_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /help is issued."""
+    """Envia mensajes para ayuda de comandos."""
     await update.message.reply_text("Lista de comandos\n"
         "/Start El quiz iniciara.\n"
         "/Stop El quiz se finalizara.\n"
         "/Pokedex Para consultar todos los pokemon dentro del quiz.\n"
         "/Rules Reglas del Quiz.\n"
-        )
+        "/About Información acerca del BOT.\n")
     
-
 async def send_random_pokemon(chat_id, bot, user_id, context):
     """Send a random Pokémon image to the user and return the correct Pokémon name."""
     # Generate a list of Pokémon not shown to the user
@@ -198,6 +200,15 @@ async def check_answer(update: Update, context: CallbackContext):
 async def auto_stop(update: Update, context: CallbackContext) -> None:
     await asyncio.sleep(30)
     await stop(update, context)
+    await menu(update, context)
+
+async def menu(update: Update, context: CallbackContext) -> None:
+    main_menu_keyboard = ReplyKeyboardMarkup(
+        [["/start", "/stop"], ["/help", "/rules"], ["/about", "/pokedex"]],
+        one_time_keyboard=True,
+        resize_keyboard=True,
+    )
+    await update.message.reply_text("Menú principal:", reply_markup=main_menu_keyboard)
 
 async def timer_callback(chat_id, user_id, bot, context):
     await asyncio.sleep(TIMEOUT_DURATION)
@@ -238,10 +249,18 @@ async def rules(update: Update, context: CallbackContext):
     await update.message.reply_text(rules_text)
 
 async def pokedex(update: Update, context: CallbackContext):
-    """List the available Pokémon names."""
+    """Lista de Pokémon."""
     pokemon_names = [pokemon["name"] for pokemon in pokemons]
     pokemon_list_text = "Pokémon Disponibles:\n" + "\n".join(pokemon_names)
     await update.message.reply_text(pokemon_list_text)
+
+async def about(update: Update, context: CallbackContext) -> None:
+    """Envia mensaje de about."""
+    await update.message.reply_text("Acerca del BOT\n"
+        "Bot creado por: Juan Carlos Salazar Silva.\n"
+        "Para la materia de Backend I del ITE del profe Pako.\n"
+        )
+
 # Función principal que inicia la aplicación
 def main() -> None:
     """Start the bot."""
@@ -253,6 +272,9 @@ def main() -> None:
     application.add_handler(CommandHandler("rules", rules))
     application.add_handler(CommandHandler("pokedex", pokedex))
     application.add_handler(CommandHandler("stop", stop))
+    application.add_handler(CommandHandler("about", about))
+    application.add_handler(CommandHandler("menu", menu))
+
 
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, check_answer))
 
