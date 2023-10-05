@@ -83,9 +83,6 @@ async def start(update: Update, context: CallbackContext) -> None:
     correct_answer = await send_random_pokemon(update.message.chat_id, context.bot, user.id, context)
     context.user_data["correct_answer"] = correct_answer
 
-    # Programa una tarea para aplicar /stop después de 30 segundos de inactividad
-    stop_task = asyncio.create_task(auto_stop(update, context))
-    context.user_data["stop_task"] = stop_task
 
 async def stop(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
@@ -189,18 +186,13 @@ async def check_answer(update: Update, context: CallbackContext):
     if timer_task:
         timer_task.cancel()
 
-    # Programa una tarea para aplicar /stop después de 30 segundos de inactividad
-    stop_task = asyncio.create_task(auto_stop(update, context))
-    context.user_data["stop_task"] = stop_task
+
 
     # Envía la siguiente imagen y actualiza el nombre correcto
     correct_answer = await send_random_pokemon(update.message.chat_id, context.bot, user.id, context)
     context.user_data["correct_answer"] = correct_answer
 
-async def auto_stop(update: Update, context: CallbackContext) -> None:
-    await asyncio.sleep(30)
-    await stop(update, context)
-    await menu(update, context)
+
 
 async def menu(update: Update, context: CallbackContext) -> None:
     main_menu_keyboard = ReplyKeyboardMarkup(
