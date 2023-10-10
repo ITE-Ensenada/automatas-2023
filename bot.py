@@ -61,6 +61,11 @@ async def photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     )
     filter_functions[MODE]("photo.jpg")
     await update.message.reply_photo("photo.jpg")
+    await update.message.reply_text(
+        "See you later!"
+    )
+    return ConversationHandler.END
+
 
 
 async def set_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -81,11 +86,21 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
 
-def main() -> None:
-    application = Application.builder().token(API_KEY).build()
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        """
+Use /start to begin the image editing process. If you wish to cancel, use /cancel.
+"""
+    )
 
+
+def main() -> None:
+    
+    application = Application.builder().token(API_KEY).build()
     conv_handler = ConversationHandler(
-        entry_points=[CommandHandler("start", start)],
+        entry_points=[
+            CommandHandler("start", start),
+            ],
         states={
             PHOTO: [MessageHandler(filters.PHOTO, photo)],
             SET_MODE: [MessageHandler(filters.Regex(
@@ -96,7 +111,6 @@ def main() -> None:
     )
 
     application.add_handler(conv_handler)
-
     # Run the bot
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
