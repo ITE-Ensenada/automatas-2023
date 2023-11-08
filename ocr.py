@@ -3,7 +3,6 @@ from pytesseract import Output
 from PIL import Image
 import cv2
 import numpy as np
-    # Load the image
 
 def ocr(img_path):
     
@@ -13,7 +12,7 @@ def ocr(img_path):
 
 def rectangles() -> list:
 
-    image = cv2.imread('reti.jpg')
+    image = cv2.imread('assets/reti.jpg')
     
     # Blur, then greyscale, then borders, then conts.
     blur = cv2.pyrMeanShiftFiltering(image, 11, 21)
