@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import pytesseract
+from typing_extensions import Self
 from PIL import ImageFilter, Image, ImageEnhance
 from cv2 import dnn_superres
 from pdf2image import convert_from_path, pdfinfo_from_path
@@ -81,6 +82,8 @@ class ImageProcessor:
 
         except Exception as e:
             raise ("Couldn't convert PDF", e)
+        
+        return self
 
     def save(self, path: str):
         """
