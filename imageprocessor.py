@@ -4,9 +4,7 @@ import pytesseract
 from typing_extensions import Self
 from PIL import ImageFilter, Image, ImageEnhance
 from cv2 import dnn_superres
-from pdf2image import convert_from_path, pdfinfo_from_path
-from base64 import urlsafe_b64decode as b64decode
-from base64 import urlsafe_b64encode
+from pdf2image import convert_from_path
 from io import BytesIO
 
 
@@ -14,7 +12,35 @@ class ImageProcessor:
     def __init__(self):
         self.image: Image.Image = None
 
-    def load_from_path(self, path: str):
+    def load_from_bytes(self, b: bytes) -> Self:
+        """
+        Load an image from a bytes object.
+
+        This method takes a bytes object containing image data, opens it as an image,
+        and converts it to both a PIL Image and an OpenCV image for further processing.
+
+        Args:
+            b (bytes): The bytes object containing image data.
+
+        Raises:
+            Exception: If an error occurs while opening the image from bytes.
+
+        Returns:
+            ImageProcessor: The ImageProcessor instance.
+        """
+        try:
+            self.image = Image.open(
+                BytesIO(b)
+            )
+            self.ocv_image = cv2.cvtColor(
+                np.array(self.image), cv2.COLOR_RGB2BGR)
+
+        except:
+            raise Exception("Could not open image from bytes.")
+
+        return self
+
+    def load_from_path(self, path: str) -> Self:
         """
         Load an image from a file path.
 
@@ -34,26 +60,7 @@ class ImageProcessor:
 
         return self
 
-    def load_from_string(self, base64str: str):
-        """
-        Load an image from a base64-encoded string.
-
-        Args:
-            base64str (str): The base64-encoded image data.
-
-        Returns:
-            ImageProcessor: The ImageProcessor instance.
-        """
-        try:
-            self.image = Image.open(BytesIO(b64decode(base64str)))
-            self.ocv_image = cv2.cvtColor(
-                np.array(self.image), cv2.COLOR_RGB2BGR)
-        except Exception as e:
-            print("Could not load image", e)
-
-        return self
-
-    def load_from_pdf(self, path: str):
+    def load_from_pdf(self, path: str) -> Self:
         """
         Load an image from a PDF file, converting the first page to an image.
 
@@ -74,18 +81,19 @@ class ImageProcessor:
             images = convert_from_path(path)
 
             if len(images) > 1:
-                print("Multiple page PDFs are not supported. Only first page will be saved.")
+                print(
+                    "Multiple page PDFs are not supported. Only first page will be saved.")
 
             self.image = images[0]
             self.ocv_image = cv2.cvtColor(
                 np.array(self.image), cv2.COLOR_RGB2BGR)
 
         except Exception as e:
-            raise ("Couldn't convert PDF", e)
-        
+            raise Exception("Couldn't convert PDF", e)
+
         return self
 
-    def save(self, path: str):
+    def save(self, path: str) -> None:
         """
         Save the current image to a file.
 
@@ -94,7 +102,7 @@ class ImageProcessor:
         """
         self.image.save(path)
 
-    def greyscale(self):
+    def greyscale(self) -> Self:
         """
         Convert the image to grayscale.
 
@@ -106,7 +114,7 @@ class ImageProcessor:
 
         return self
 
-    def contour(self):
+    def contour(self) -> Self:
         """
         Apply a contour filter to the image.
 
@@ -117,7 +125,7 @@ class ImageProcessor:
 
         return self
 
-    def blur_image(self):
+    def blur_image(self) -> Self:
         """
         Apply a Gaussian blur to the image.
 
@@ -128,7 +136,7 @@ class ImageProcessor:
 
         return self
 
-    def enhance_color(self, factor: float):
+    def enhance_color(self, factor: float) -> Self:
         """
         Enhance the color of the image by a specified factor.
 
@@ -142,7 +150,7 @@ class ImageProcessor:
         self.image = converter.enhance(factor=factor)
         return self
 
-    def upscale(self):
+    def upscale(self) -> Self:
         """
         Upscale the image using a super-resolution model.
 
@@ -157,7 +165,7 @@ class ImageProcessor:
 
         return self
 
-    def ocr(self):
+    def ocr(self) -> str:
         """
         Perform Optical Character Recognition (OCR) on the current image and print the detected text.
         """
@@ -165,14 +173,14 @@ class ImageProcessor:
 
 
 if __name__ == "__main__":
-    urlstr = str
 
-    with open("assets/reti.jpg", "rb") as img:
-        urlstr = urlsafe_b64encode(img.read())
+    img_bytes: bytes
+    with open("assets/reti.jpg", "rb") as img_file:
+        img_bytes = img_file.read()
 
     processor = ImageProcessor()
     text = processor\
-        .load_from_string(urlstr)\
+        .load_from_bytes(img_bytes)\
         .greyscale()\
         .ocr()
 

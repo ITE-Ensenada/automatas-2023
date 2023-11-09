@@ -6,15 +6,16 @@ from imageprocessor import ImageProcessor
 app = Flask(__name__)
 
 
-@app.route("/ocr/image/frombase64", methods=["POST"])
+@app.route("/ocr/image/frombytes", methods=["POST"])
 def get_image_text():
-    image_str = request.args.get("image")
-    if not image_str:
-        return {"Error": "Sube bien la imagen perro"}, 200
+    image = request.files["image"]
+    img_bytes = image.read()
+    if not img_bytes:
+        return {"Error": "Sube bien la imagen perro"}, 400
     
     processor = ImageProcessor()
     text = processor\
-    .load_from_string(image_str)\
+    .load_from_bytes(img_bytes)\
     .greyscale()\
     .ocr()
 
