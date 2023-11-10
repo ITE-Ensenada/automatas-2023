@@ -12,11 +12,11 @@ def get_image_text():
     img_bytes = image.read()
     if not img_bytes:
         return {"Error": "Sube bien la imagen perro"}, 400
-    
+
     processor = ImageProcessor()
     text = processor\
-    .load_from_bytes(img_bytes)\
-    .greyscale()\
-    .ocr()
+        .load_from_bytes(img_bytes)\
+        .greyscale()\
+        .ocr()
 
-    return {"text":f"{text}"}, 200
+    return {"text": f"{text}"}, 200
