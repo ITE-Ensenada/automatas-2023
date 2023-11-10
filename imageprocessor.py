@@ -4,7 +4,7 @@ import pytesseract
 from typing_extensions import Self
 from PIL import ImageFilter, Image, ImageEnhance
 from cv2 import dnn_superres
-from pdf2image import convert_from_path
+from pdf2image import convert_from_path  # pyright: ignore
 from io import BytesIO
 
 
@@ -157,7 +157,7 @@ class ImageProcessor:
         Returns:
             ImageProcessor: The ImageProcessor instance.
         """
-        sr = dnn_superres.DnnSuperResImpl_create()
+        sr = dnn_superres.DnnSuperResImpl_create()  # pyright: ignore
         model_path = "ESPCN_x2.pb"
         sr.readModel(model_path)
         sr.setModel("espcn", 2)
