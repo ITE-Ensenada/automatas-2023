@@ -4,13 +4,15 @@ import pytesseract
 from typing_extensions import Self
 from PIL import ImageFilter, Image, ImageEnhance
 from cv2 import dnn_superres
-from pdf2image import convert_from_path  # pyright: ignore
+from pdf2image import convert_from_path
 from io import BytesIO
+from cv2.typing import MatLike
 
 
 class ImageProcessor:
     def __init__(self):
-        self.image: Image.Image = None
+        self.image: Image.Image
+        self.ocv_image: MatLike
 
     def load_from_bytes(self, b: bytes) -> Self:
         """
@@ -29,11 +31,8 @@ class ImageProcessor:
             ImageProcessor: The ImageProcessor instance.
         """
         try:
-            self.image = Image.open(
-                BytesIO(b)
-            )
-            self.ocv_image = cv2.cvtColor(
-                np.array(self.image), cv2.COLOR_RGB2BGR)
+            self.image = Image.open(BytesIO(b))
+            self.ocv_image = cv2.cvtColor(np.array(self.image), cv2.COLOR_RGB2BGR)
 
         except:
             raise Exception("Could not open image from bytes.")
@@ -52,8 +51,7 @@ class ImageProcessor:
         """
         try:
             self.image = Image.open(path)
-            self.ocv_image = cv2.cvtColor(
-                np.array(self.image), cv2.COLOR_RGB2BGR)
+            self.ocv_image = cv2.cvtColor(np.array(self.image), cv2.COLOR_RGB2BGR)
 
         except Exception as e:
             print("Could not load image", e)
@@ -82,24 +80,28 @@ class ImageProcessor:
 
             if len(images) > 1:
                 print(
-                    "Multiple page PDFs are not supported. Only first page will be saved.")
+                    "Multiple page PDFs are not supported. Only first page will be saved."
+                )
 
             self.image = images[0]
-            self.ocv_image = cv2.cvtColor(
-                np.array(self.image), cv2.COLOR_RGB2BGR)
+            self.ocv_image = cv2.cvtColor(np.array(self.image), cv2.COLOR_RGB2BGR)
 
         except Exception as e:
             raise Exception("Couldn't convert PDF", e)
 
         return self
 
-    def save(self, path: str) -> None:
+    def save(self, path: str, compression = False) -> None:
         """
         Save the current image to a file.
 
         Args:
             path (str): The path to save the image to.
         """
+        if compression:
+            width, height = self.image.size
+            self.image = self.image.resize(size=[width/2, height/2])
+
         self.image.save(path)
 
     def greyscale(self) -> Self:
@@ -172,16 +174,16 @@ class ImageProcessor:
         return pytesseract.image_to_string(self.image, lang="spa")
 
 
-if __name__ == "__main__":
-
+if __name__ == "__main__": 
+    
+    import requests
+    
     img_bytes: bytes
-    with open("assets/reti.jpg", "rb") as img_file:
+    with open("assets/reti.pdf", "rb") as img_file:
         img_bytes = img_file.read()
 
-    processor = ImageProcessor()
-    text = processor\
-        .load_from_bytes(img_bytes)\
-        .greyscale()\
-        .ocr()
-
+    text = requests.post(
+            "http://localhost:5000/ocr/pdf/frombytes", 
+            files={"pdf": img_bytes}
+        ).text
     print(text)

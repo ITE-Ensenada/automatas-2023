@@ -1,18 +1,8 @@
 #!/usr/bin/env python
-# pylint: disable=unused-argument
-
 
 import os
-from processing import (
-    blur_image,
-    greyscale,
-    enhance_color,
-    contour
-)
-from telegram import (
-    ReplyKeyboardMarkup, 
-    ReplyKeyboardRemove, 
-    Update)
+from imageprocessor import ImageProcessor
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -24,21 +14,18 @@ from telegram.ext import (
 
 API_KEY = os.getenv("TELEGRAM_BOT_KEY")
 PHOTO, SET_MODE = range(2)
-MODE = ''
+MODE = ""
 filter_functions = {
-    'blur': blur_image,
-    'b/w': greyscale,
-    'enhance': enhance_color ,
-    'contour': contour
+    "blur": blur_image,
+    "b/w": greyscale,
+    "enhance": enhance_color,
+    "contour": contour,
 }
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Starts the conversation"""
-    reply_keyboard = [
-        ["Blur", "B/W", "Enhance"],
-        ["Contour"]
-        ]
+    reply_keyboard = [["Blur", "B/W", "Enhance"], ["Contour"]]
 
     await update.message.reply_text(
         "Please select a filter and then send a photo",
@@ -51,25 +38,18 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 
 async def photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-
     """Receives image, then applies filter"""
 
     photo_file = await update.message.photo[-1].get_file()
     await photo_file.download_to_drive("photo.jpg")
-    await update.message.reply_text(
-        "Here's your processed image:"
-    )
+    await update.message.reply_text("Here's your processed image:")
     filter_functions[MODE]("photo.jpg")
     await update.message.reply_photo("photo.jpg")
-    await update.message.reply_text(
-        "See you later!"
-    )
+    await update.message.reply_text("See you later!")
     return ConversationHandler.END
 
 
-
 async def set_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-
     global MODE
     MODE = update.message.text.lower()
     await update.message.reply_text(f"You selected {MODE}. Now send me the photo!")
@@ -95,17 +75,16 @@ Use /start to begin the image editing process. If you wish to cancel, use /cance
 
 
 def main() -> None:
-    
     application = Application.builder().token(API_KEY).build()
     conv_handler = ConversationHandler(
         entry_points=[
             CommandHandler("start", start),
-            ],
+        ],
         states={
             PHOTO: [MessageHandler(filters.PHOTO, photo)],
-            SET_MODE: [MessageHandler(filters.Regex(
-                "^(Blur|Enhance|B/W|Contour)$"
-                ), set_mode)]
+            SET_MODE: [
+                MessageHandler(filters.Regex("^(Blur|Enhance|B/W|Contour)$"), set_mode)
+            ],
         },
         fallbacks=[CommandHandler("cancel", cancel)],
     )

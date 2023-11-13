@@ -1,5 +1,6 @@
 #!/bin/env/python
 
+import os
 from flask import Flask, request
 from imageprocessor import ImageProcessor
 
@@ -11,12 +12,22 @@ def get_image_text():
     image = request.files["image"]
     img_bytes = image.read()
     if not img_bytes:
-        return {"Error": "Sube bien la imagen perro"}, 400
+        return {"Error": "Provide a valid image."}, 400
 
     processor = ImageProcessor()
-    text = processor\
-        .load_from_bytes(img_bytes)\
-        .greyscale()\
-        .ocr()
+    text = processor.load_from_bytes(img_bytes).greyscale().ocr()
+
+    return {"text": f"{text}"}, 200
+
+@app.route("/ocr/pdf/frombytes", methods=["POST"])
+def get_pdf_text():
+    pdf = request.files["pdf"]
+    pdf.save("temp.pdf")
+    if not pdf:
+        return {"Error": "Provide a valid PDF file."}, 400
+
+    processor = ImageProcessor()
+    text = processor.load_from_pdf("temp.pdf").greyscale().ocr()
+    os.remove("temp.pdf")
 
     return {"text": f"{text}"}, 200
