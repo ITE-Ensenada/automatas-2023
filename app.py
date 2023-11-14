@@ -19,6 +19,7 @@ def get_image_text():
 
     return {"text": f"{text}"}, 200
 
+
 @app.route("/ocr/pdf/frombytes", methods=["POST"])
 def get_pdf_text():
     pdf = request.files["pdf"]

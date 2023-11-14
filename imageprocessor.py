@@ -179,11 +179,11 @@ if __name__ == "__main__":
     import requests
     
     img_bytes: bytes
-    with open("assets/reti.pdf", "rb") as img_file:
+    with open("assets/reti.jpg", "rb") as img_file:
         img_bytes = img_file.read()
 
     text = requests.post(
-            "http://localhost:5000/ocr/pdf/frombytes", 
-            files={"pdf": img_bytes}
+            "http://localhost:5000/ocr/image/frombytes", 
+            files={"image": img_bytes}
         ).text
     print(text)
