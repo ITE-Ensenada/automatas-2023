@@ -14,7 +14,7 @@ respuestas = {
 
 app = Flask(__name__)
 
-@app.route('/pregunta', methods=['POST'])
+@app.route('/http://127.0.0.1:5000', methods=['POST'])
 def responder_pregunta():
     data = request.get_json()
     pregunta_usuario = data.get("pregunta")
