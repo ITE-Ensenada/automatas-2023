@@ -53,6 +53,19 @@ This API provides endpoints for performing Optical Character Recognition (OCR) o
 ```bash
 curl -X POST -F "image=@/path/to/your/image.jpg" http://localhost:5000/ocr/image/frombytes
 ```
+```python
+import requests
+    
+img_bytes: bytes
+with open("assets/reti.jpg", "rb") as img_file:
+    img_bytes = img_file.read()
+
+text = requests.post(
+        "http://localhost:5000/ocr/image/frombytes", 
+        files={"image": img_bytes}
+    ).text
+    print(text)
+```
 
 #### Response:
 
@@ -74,6 +87,19 @@ curl -X POST -F "image=@/path/to/your/image.jpg" http://localhost:5000/ocr/image
 
 ```bash
 curl -X POST -F "pdf=@/path/to/your/document.pdf" http://localhost:5000/ocr/pdf/frombytes
+```
+```python
+import requests
+    
+pdf_bytes: bytes
+with open("assets/reti.jpg", "rb") as pdf_file:
+    pdf_bytes = pdf_file.read()
+
+text = requests.post(
+        "http://localhost:5000/ocr/image/frombytes", 
+        files={"pdf": pdf_bytes}
+    ).text
+    print(text)
 ```
 
 #### Response:
