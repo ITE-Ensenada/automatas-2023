@@ -1,3 +1,41 @@
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+sw = []
+
+with open("sw.txt", "r") as f:
+    swl = f.readlines()
+    for l in swl:
+        sw.append(l)
+
+print(sw)
+
+from preguntas import preguntas
+flattened_questions = [" ".join(question) for question_set in preguntas for question in question_set]
+print(flattened_questions)
+
+labels = ["Class1"] * len(preguntas[0]) + ["Class2"] * len(preguntas[1])
+X_train, X_test, y_train, y_test = train_test_split(flattened_questions, labels, test_size=0.2)
+
+# Convert text data to feature vectors using CountVectorizer
+vectorizer = CountVectorizer(stop_words=sw, min_df=1)
+X_train_vectorized = vectorizer.fit_transform(X_train)
+X_test_vectorized = vectorizer.transform(X_test)
+
+# Create and train the naive Bayes classifier
+clf = MultinomialNB()
+clf.fit(X_train_vectorized, y_train)
+
+# Make predictions on the test set
+predictions = clf.predict(X_test_vectorized)
+
+# Evaluate the accuracy
+accuracy = accuracy_score(y_test, predictions)
+print(f"Accuracy: {accuracy:.2f}")
+
+
 def es_pregunta(input_usuario):
     """
     Determina si el parametro ingresado es una pregunta y clasifica el tipo de pregunta.
@@ -17,47 +55,4 @@ def es_pregunta(input_usuario):
 
     particulas_interrogativas = ["no", "acaso", "verdad", "a que", "o no", "no es cierto", "no es verdad", "no es asi"]
 
-    # Convierte en minúsculas el prompt
-    input_usuario = input_usuario.lower()
 
-    # Divide el texto ingresado por el usuario en palabras y se asigna a la variable palabras
-    palabras = input_usuario.split()
-
-    # Banderas para el tipo de pregunta
-    bandera = 0
-    palabra_interrogativa = None  # Aqui se guargara la palabra para despues se muestre en la salida de la solicitud
-    tipo_pregunta = None  # Agregamos una variable para el tipo de pregunta
-
-    # Verificar las palabras que hacen que el texto sea pregunta
-    for palabra in palabras:
-        if palabra in pronombres_interrogativos:
-            bandera = 1  # Pregunta pronombres interrogativa
-            palabra_interrogativa = palabra  # la palabra que toma el for se almacena en la palabra interrogativa
-            tipo_pregunta = "pronombres_interrogativos"
-            return bandera, palabra_interrogativa, tipo_pregunta  # Regresamos la tipo de pregunta, la palabra, y a que interrogativa se encuentra la palabra
-
-        elif palabra in adjetivos_interrogativos:
-            bandera = 2  # Pregunta Adjetivos Interrogativos
-            palabra_interrogativa = palabra  # la palabra que toma el for se almacena en la palabra interrogativa
-            tipo_pregunta = "adjetivos_interrogativos"
-            return bandera, palabra_interrogativa, tipo_pregunta  # Regresamos la tipo de pregunta, la palabra, y a que interrogativa se encuentra la palabra
-
-        elif palabra in adverbios_interrogativos:
-            bandera = 3  # Pregunta Adverbios Interrogativos
-            palabra_interrogativa = palabra  # la palabra que toma el for se almacena en la palabra interrogativa
-            tipo_pregunta = "adverbios_interrogativos"
-            return bandera, palabra_interrogativa, tipo_pregunta  # Regresamos la tipo de pregunta, la palabra, y a que interrogativa se encuentra la palabra
-
-        elif palabra in particulas_interrogativas:
-            bandera = 4  # Pregunta Particulas interrogativas
-            palabra_interrogativa = palabra  # la palabra que toma el for se almacena en la palabra interrogativa
-            tipo_pregunta = "particulas_interrogativas"
-            return bandera, palabra_interrogativa, tipo_pregunta  # Regresamos la tipo de pregunta, la palabra, y a que interrogativa se encuentra la palabra
-
-        elif "por" in palabra and "que" in palabra and palabra[palabra.index("por") + 1] == "que":
-            bandera = 5
-            palabra_interrogativa = palabra
-            tipo_pregunta = "por_que"
-            return bandera, palabra_interrogativa, tipo_pregunta
-
-    return bandera, palabra_interrogativa, tipo_pregunta  # No es una pregunta
