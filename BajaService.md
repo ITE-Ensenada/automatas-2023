@@ -5,7 +5,7 @@ Autor(s): Alejandro Valenzuela Ramirez
 
 Estatus: [Desarrollo]
 
-Ultima Actualizacion: 2023-09-29
+Ultima Actualizacion: 2023-12-12
 
 ## Contenido
 - Metas
@@ -29,13 +29,38 @@ Ultima Actualizacion: 2023-09-29
 
 ## Objetivo ¿Qué y por qué estamos haciendo esto?
 "Estamos haciendo esta práctica para conocer más a fondo el manejo de APIs y la funcionalidad de los bots en Telegram."
+
 ## Metas
 - Creacion de un bot de telegram
 
 ## Background
 Decidimos crear en la materia de Backend un bot en telegram para aprender mas sobre esta herramienta.
+
 ## Descripcion general
 Este bot ofrecerá cinco botones, cada uno representando una ciudad del estado de Baja California: Ensenada, San Quintín, Rosarito, Tijuana, Tecate y Mexicali. Al seleccionar cualquiera de estos botones, aparecerá un diccionario con información detallada y un portafolio de cada empresa que ofrece servicios digitales.
+El bot analiza preguntas y responde según ciertos criterios predefinidos.
+
+## Funcionalidades
+- **Análisis de Preguntas:** El bot determina si una entrada es una pregunta y clasifica el tipo de pregunta.
+- **Respuestas:** Genera respuestas basadas en el análisis de la pregunta.
+
+## Uso
+
+1. **Iniciar el Bot:**
+   - Ejecuta el script `nombre_del_script.py` para iniciar la API de Flask.
+
+2. **Interactuar con el Bot:**
+   - Envía preguntas al bot mediante mensajes a través de Telegram.
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+python bajaservice.py
+python api.py
+```
+
+
 ## Diseño Detallado
 _-Diagramas de flujo si es necesario.
 
