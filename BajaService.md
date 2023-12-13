@@ -86,7 +86,7 @@ Python
 ### Frontend
 App Movil
 ### Backend
-Node.js
+Python y Flask
 
 ## Consideraciones
 _Preocupaciones(Escalabilidad, Usabilidad) / Compensaciones / Deuda Técnica_
